@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 
 	"github.com/JamesClonk/feed-notifier/config"
 	"github.com/JamesClonk/feed-notifier/log"
+	"github.com/mmcdole/gofeed"
 )
 
 func init() {
@@ -18,18 +20,30 @@ func main() {
 }
 
 func feedWatcher() {
+	parser := gofeed.NewParser()
 	for {
 		for _, notification := range config.Get().Notifications {
-			for _, feed := range notification.Feeds {
-				log.Infof("getting feed entries for feed [%v] ...", feed.URL)
-				// TODO: get feed entries here
-				feedChecked := time.Now()
+			if len(notification.Name) > 0 {
+				log.Debugf("going through [%s] feeds ...", notification.Name)
+			}
 
-				feedEntryTimestamp := time.Now()
-				if feedEntryTimestamp.After(feed.LastCheck) && time.Since(feedEntryTimestamp) < config.Get().MaxAge {
-					// TODO: notify here
-					feed.LastCheck = feedChecked
+			for _, feed := range notification.Feeds {
+				log.Debugf("getting feed items for feed [%v] ...", feed.URL)
+				f, _ := parser.ParseURL(feed.URL)
+
+				for _, item := range f.Items {
+					// check for item to be newer than lastUpdate and younger than maxAge
+					if item.UpdatedParsed.After(feed.LastUpdate) && time.Since(*item.UpdatedParsed) < config.Get().MaxAge {
+						title := feed.Name
+						if len(title) == 0 {
+							title = f.Title
+						}
+						title = fmt.Sprintf("%s - %s", title, item.Title)
+						log.Infof("notify about feed item [%s]", title)
+						// TODO: notify here
+					}
 				}
+				feed.LastUpdate = *f.UpdatedParsed
 			}
 		}
 

@@ -1,11 +1,13 @@
 log_level: debug
 log_timestamp: true
-max_age: 1h
+max_age: 2h
 
 notifications:
 - name: github-releases
   feeds:
-  - url: https://github.com/cloudfoundry/cf-deployment/releases.atom
-  - url: https://github.com/cloudfoundry/capi-release/releases.atom
+  - name: cf-releases
+    url: https://github.com/cloudfoundry/cf-deployment/releases.atom
+  - name: capi-releases
+    url: https://github.com/cloudfoundry/capi-release/releases.atom
   webhooks:
   - url: http://localhost:9876/test

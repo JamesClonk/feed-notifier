@@ -29,9 +29,9 @@ type Notification struct {
 }
 
 type Feed struct {
-	Name      string
-	URL       string
-	LastCheck time.Time `yaml:"last_check"`
+	Name       string
+	URL        string
+	LastUpdate time.Time `yaml:"last_check"`
 }
 
 type Webhook struct {
