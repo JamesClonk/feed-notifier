@@ -9,3 +9,4 @@ applications:
   - go_buildpack
   env:
     TZ: Europe/Zurich
+    CONFIG_FILE: config_prod.yml
