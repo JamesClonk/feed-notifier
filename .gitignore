@@ -16,3 +16,7 @@
 
 # configs
 config_*.yml
+
+# binaries
+gin-bin
+feed-notifier
