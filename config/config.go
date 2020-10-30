@@ -49,16 +49,23 @@ func Get() *Config {
 		}
 
 		// load config file
-		if _, err := os.Stat("config.yml"); err == nil {
-			data, err := ioutil.ReadFile("config.yml")
+		filename := os.Getenv("CONFIG_FILE")
+		if len(filename) == 0 {
+			filename = "config.yml"
+		}
+		if _, err := os.Stat(filename); err == nil {
+			data, err := ioutil.ReadFile(filename)
 			if err != nil {
-				log.Println("could not load config.yml")
+				log.Println("could not load", filename)
 				log.Fatalln(err.Error())
 			}
 			if err := yaml.Unmarshal(data, &config); err != nil {
-				log.Println("could not parse config.yml")
+				log.Println("could not parse", filename)
 				log.Fatalln(err.Error())
 			}
+		} else {
+			log.Println("could not find", filename)
+			log.Fatalln(err.Error())
 		}
 	})
 	return &config

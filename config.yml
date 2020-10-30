@@ -11,3 +11,37 @@ notifications:
     url: https://github.com/cloudfoundry/capi-release/releases.atom
   webhooks:
   - url: http://localhost:9876/test
+    template: |
+      {
+        "@type": "MessageCard",
+        "@context": "https://schema.org/extensions",
+        "summary": "{{ .Title }}",
+        "themeColor": "1188dd",
+        "title": "{{ .Title }}",
+        "sections": [
+          {
+            "activityTitle": "{{ .Feed.Title }}",
+            "activitySubtitle": "{{ .Item.Title }}",
+            "activityImage": "{{ .Feed.Image }}",
+            "facts": [
+              {
+                "name": "Updated:",
+                "value": "{{ .Item.Updated }}"
+              }
+            ],
+            "text": "{{ .MarkdownContent | replace "\"" "'" | replace "\\" "" | replace "\n" "          \n" }}"
+          }
+        ],
+        "potentialAction": [
+          {
+            "@type": "OpenUri",
+            "name": "GitHub - Release Notes",
+            "targets": [
+              {
+                "os": "default",
+                "uri": "{{ .Item.Link }}"
+              }
+            ]
+          }
+        ]
+      }

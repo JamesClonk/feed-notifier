@@ -14,10 +14,10 @@ help:
 run:
 	go run -race main.go
 
-.PHONY: gin
-## gin: runs main.go via gin (hot reloading)
-gin:
-	gin --all --immediate --appPort 9099 --port 9090 run main.go
+.PHONY: dev
+## dev: runs main.go with dev config-file and the race detector
+dev:
+	CONFIG_FILE=config_dev.yml go run -race main.go
 
 .PHONY: build
 ## build: builds the application
