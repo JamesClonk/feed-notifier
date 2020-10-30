@@ -5,6 +5,7 @@ applications:
   disk_quota: 128M
   instances: 1
   no-route: true
+  health-check-type: process
   buildpacks:
   - go_buildpack
   env:
