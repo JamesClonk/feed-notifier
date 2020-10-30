@@ -1,0 +1,11 @@
+---
+applications:
+- name: feed-notifier
+  memory: 64M
+  disk_quota: 128M
+  instances: 1
+  no-route: true
+  buildpacks:
+  - go_buildpack
+  env:
+    TZ: Europe/Zurich

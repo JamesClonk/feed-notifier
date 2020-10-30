@@ -1,0 +1,16 @@
+.dockerenv
+.env_*
+.git
+.gitmodules
+.gitignore
+.travis.yml
+.circleci
+cf
+gin-bin
+feed-notifier
+Makefile
+Dockerfile
+LICENSE
+NOTICE
+README.md
+_fixtures
