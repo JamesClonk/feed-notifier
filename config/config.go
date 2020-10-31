@@ -19,13 +19,13 @@ type Config struct {
 	LogLevel      string        `yaml:"log_level"`
 	LogTimestamp  bool          `yaml:"log_timestamp"`
 	MaxAge        time.Duration `yaml:"max_age"`
-	Notifications []Notification
+	Notifications []*Notification
 }
 
 type Notification struct {
 	Name     string
-	Feeds    []Feed
-	Webhooks []Webhook
+	Feeds    []*Feed
+	Webhooks []*Webhook
 }
 
 type Feed struct {
@@ -45,7 +45,7 @@ func Get() *Config {
 		config = Config{
 			LogLevel:      "info",
 			LogTimestamp:  true,
-			Notifications: make([]Notification, 0),
+			Notifications: make([]*Notification, 0),
 		}
 
 		// load config file

@@ -37,6 +37,7 @@ func feedWatcher() {
 			for _, feed := range notification.Feeds {
 				log.Debugf("getting feed items for feed [%v] ...", feed.URL)
 				f, _ := parser.ParseURL(feed.URL)
+				now := time.Now()
 
 				for _, item := range f.Items {
 					// check for item to be newer than lastUpdate and younger than maxAge
@@ -100,7 +101,7 @@ func feedWatcher() {
 						}
 					}
 				}
-				feed.LastUpdate = *f.UpdatedParsed
+				feed.LastUpdate = now
 			}
 		}
 
