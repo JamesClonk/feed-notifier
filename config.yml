@@ -7,8 +7,54 @@ notifications:
   feeds:
   - name: cf-releases
     url: https://github.com/cloudfoundry/cf-deployment/releases.atom
+  - name: bosh-releases
+    url: https://github.com/cloudfoundry/bosh/releases.atom
   - name: capi-releases
     url: https://github.com/cloudfoundry/capi-release/releases.atom
+  - name: cf-for-k8s
+    url: https://github.com/cloudfoundry/cf-for-k8s/releases.atom
+  - name: concourse
+    url: https://github.com/concourse/concourse/releases.atom
+  - name: mongodb-operator
+    url: https://github.com/mongodb/mongodb-enterprise-kubernetes/releases.atom
+  - name: prometheus-operator
+    url: https://github.com/prometheus-operator/prometheus-operator/releases.atom
+  - name: grafana-operator
+    url: https://github.com/integr8ly/grafana-operator/releases.atom
+  - name: postgres-operator
+    url: https://github.com/CrunchyData/postgres-operator/releases.atom
+  - name: tekton-operator
+    url: https://github.com/tektoncd/operator/releases.atom
+  - name: ytt
+    url: https://github.com/k14s/ytt/releases.atom
+  - name: kapp
+    url: https://github.com/k14s/kapp/releases.atom
+  - name: kbld
+    url: https://github.com/k14s/kbld/releases.atom
+  - name: vendir
+    url: https://github.com/k14s/vendir/releases.atom
+  - name: kapp-controller
+    url: https://github.com/k14s/kapp-controller/releases.atom
+  - name: tekton-pipeline
+    url: https://github.com/tektoncd/pipeline/releases.atom
+  - name: kubernetes/ingress-nginx
+    url: https://github.com/kubernetes/ingress-nginx/releases.atom
+  - name: cert-manager
+    url: https://github.com/jetstack/cert-manager/releases.atom
+  - name: cilium
+    url: https://github.com/cilium/cilium/releases.atom
+  - name: hetznercloud/csi-driver
+    url: https://github.com/hetznercloud/csi-driver/releases.atom
+  - name: kubernetes/longhorn
+    url: https://github.com/longhorn/longhorn/releases.atom
+  - name: prometheus
+    url: https://github.com/prometheus/prometheus/releases.atom
+  - name: grafana
+    url: https://github.com/grafana/grafana/releases.atom
+  - name: cf-cli
+    url: https://github.com/cloudfoundry/cli/releases.atom
+  - name: bosh-cli
+    url: https://github.com/cloudfoundry/bosh-cli/releases.atom
   webhooks:
   - url: http://localhost:9876/test
     template: |
