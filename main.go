@@ -92,7 +92,7 @@ func feedWatcher() {
 									return
 								}
 
-								if resp.StatusCode != 200 {
+								if resp.StatusCode > 299 {
 									log.Errorf("notification failed: %s", string(body))
 								} else {
 									log.Infoln("notification success!")
