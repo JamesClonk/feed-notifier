@@ -49,13 +49,13 @@ func feedWatcher() {
 						title = fmt.Sprintf("%s - %s", title, item.Title)
 						log.Infof("notify about feed item [%s]", title)
 
+						// try to convert feed item content to markdown
+						markdown, err := md.NewConverter("", true, nil).Use(md_plugin.GitHubFlavored()).ConvertString(item.Content)
+						if err != nil {
+							log.Errorf("could not convert feed item content to markdown: %v", err)
+						}
+						
 						for _, hook := range notification.Webhooks {
-							// try to convert feed item content to markdown
-							markdown, err := md.NewConverter("", true, nil).Use(md_plugin.GitHubFlavored()).ConvertString(item.Content)
-							if err != nil {
-								log.Errorf("could not convert feed item content to markdown: %v", err)
-							}
-
 							// parse webhook template, fill it with data
 							var data bytes.Buffer
 							tmpl := template.Must(template.New("webhook").Funcs(sprig.FuncMap()).Parse(hook.Template))
