@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"html/template"
 	"io/ioutil"
 	"math/rand"
@@ -36,18 +35,31 @@ func feedWatcher() {
 
 			for _, feed := range notification.Feeds {
 				log.Debugf("getting feed items for feed [%v] ...", feed.URL)
-				f, _ := parser.ParseURL(feed.URL)
+				f, err := parser.ParseURL(feed.URL)
+				if err != nil {
+					log.Errorf("could not parse url [%s]: %v", feed.URL, err)
+					continue
+				}
 				now := time.Now()
 
 				for _, item := range f.Items {
-					// check for item to be newer than lastUpdate and younger than maxAge
-					if item.UpdatedParsed.After(feed.LastUpdate) && time.Since(*item.UpdatedParsed) < config.Get().MaxAge {
-						title := feed.Name
-						if len(title) == 0 {
-							title = f.Title
+					itemDate := item.UpdatedParsed
+					if (item.UpdatedParsed==nil) {
+						if (item.PublishedParsed==nil) {
+						  	log.Errorf("could parse item field updated nor published.")
+						  } else {
+							itemDate = item.PublishedParsed
 						}
-						title = fmt.Sprintf("%s - %s", title, item.Title)
-						log.Infof("notify about feed item [%s]", title)
+					} else {
+						itemDate = item.UpdatedParsed
+					}
+					// check for item to be newer than lastUpdate and younger than maxAge
+					if (!itemDate.Before(feed.LastUpdate) && time.Since(*itemDate) < config.Get().MaxAge) {
+						name := feed.Name
+						if len(name) == 0 {
+							name = f.Title
+						}
+						log.Infof("notify about feed item [%s]", name)
 
 						// try to convert feed item content to markdown
 						markdown, err := md.NewConverter("", true, nil).Use(md_plugin.GitHubFlavored()).ConvertString(item.Content)
@@ -62,12 +74,12 @@ func feedWatcher() {
 							if err := tmpl.Execute(
 								&data,
 								struct {
-									Title           string
+									Name            string
 									Feed            *gofeed.Feed
 									Item            *gofeed.Item
 									MarkdownContent string
 								}{
-									Title:           title,
+									Name:            name,
 									Feed:            f,
 									Item:            item,
 									MarkdownContent: markdown,
@@ -81,14 +93,14 @@ func feedWatcher() {
 							func() {
 								resp, err := http.Post(hook.URL, "application/json", &data)
 								if err != nil {
-									log.Errorf("could not post notification of [%s] to [%s]: %v", title, hook.URL, err)
+									log.Errorf("could not post notification of [%s] to [%s]: %v", name, hook.URL, err)
 									return
 								}
 								defer resp.Body.Close()
 
 								body, err := ioutil.ReadAll(resp.Body)
 								if err != nil {
-									log.Errorf("could not read post body for notification of [%s] to [%s]: %v", title, hook.URL, err)
+									log.Errorf("could not read post body for notification of [%s] to [%s]: %v", name, hook.URL, err)
 									return
 								}
 

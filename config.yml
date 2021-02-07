@@ -61,9 +61,9 @@ notifications:
       {
         "@type": "MessageCard",
         "@context": "https://schema.org/extensions",
-        "summary": "{{ .Title }}",
+        "summary": "{{ .Name }} - {{ .Feed.Title }}",
         "themeColor": "1188dd",
-        "title": "{{ .Title }}",
+        "title": "{{ .Name }} - {{ .Feed.Title }}",
         "sections": [
           {
             "activityTitle": "{{ .Feed.Title }}",
@@ -90,4 +90,26 @@ notifications:
             ]
           }
         ]
+      }
+- name: aws-status-rss
+  feeds:
+  - name: cloudfront
+    url: https://status.aws.amazon.com/rss/cloudfront.rss
+  - name: route53
+    url: https://status.aws.amazon.com/rss/route53.rss
+  - name: ec2-us-east-1
+    url: https://status.aws.amazon.com/rss/ec2-us-east-1.rss
+  - name: elb-us-east-1
+    url: https://status.aws.amazon.com/rss/elb-us-east-1.rss
+  - name: rds-us-east-1
+    url: https://status.aws.amazon.com/rss/rds-us-east-1.rss
+  webhooks:
+  - url: http://localhost:9877/aws-status-rss
+    template: |
+      {
+        "name": "{{ .Name }}",
+        "source": "{{ .Feed.Title }}",
+        "title": "{{ .Item.Title }}",
+        "description": "{{ .Item.Description }}",
+        "link": "{{ .Item.GUID }}"
       }
