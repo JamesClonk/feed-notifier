@@ -61,9 +61,9 @@ notifications:
       {
         "@type": "MessageCard",
         "@context": "https://schema.org/extensions",
-        "summary": "{{ .Name }}",
+        "summary": "{{ .Name }} - {{ .Feed.Title }}",
         "themeColor": "1188dd",
-        "title": "{{ .Name }}",
+        "title": "{{ .Name }} - {{ .Feed.Title }}",
         "sections": [
           {
             "activityTitle": "{{ .Feed.Title }}",
