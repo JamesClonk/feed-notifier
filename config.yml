@@ -1,727 +1,93 @@
 log_level: debug
 log_timestamp: true
-max_age: 30m
+max_age: 2h
 
 notifications:
-- name: azure-status-rss
+- name: github-releases
   feeds:
-  - name: azure-status
-    url: https://azurestatuscdn.azureedge.net/en-us/status/feed/
+  - name: cf-releases
+    url: https://github.com/cloudfoundry/cf-deployment/releases.atom
+  - name: bosh-releases
+    url: https://github.com/cloudfoundry/bosh/releases.atom
+  - name: capi-releases
+    url: https://github.com/cloudfoundry/capi-release/releases.atom
+  - name: cf-for-k8s
+    url: https://github.com/cloudfoundry/cf-for-k8s/releases.atom
+  - name: concourse
+    url: https://github.com/concourse/concourse/releases.atom
+  - name: mongodb-operator
+    url: https://github.com/mongodb/mongodb-enterprise-kubernetes/releases.atom
+  - name: prometheus-operator
+    url: https://github.com/prometheus-operator/prometheus-operator/releases.atom
+  - name: grafana-operator
+    url: https://github.com/integr8ly/grafana-operator/releases.atom
+  - name: postgres-operator
+    url: https://github.com/CrunchyData/postgres-operator/releases.atom
+  - name: tekton-operator
+    url: https://github.com/tektoncd/operator/releases.atom
+  - name: ytt
+    url: https://github.com/k14s/ytt/releases.atom
+  - name: kapp
+    url: https://github.com/k14s/kapp/releases.atom
+  - name: kbld
+    url: https://github.com/k14s/kbld/releases.atom
+  - name: vendir
+    url: https://github.com/k14s/vendir/releases.atom
+  - name: kapp-controller
+    url: https://github.com/k14s/kapp-controller/releases.atom
+  - name: tekton-pipeline
+    url: https://github.com/tektoncd/pipeline/releases.atom
+  - name: kubernetes/ingress-nginx
+    url: https://github.com/kubernetes/ingress-nginx/releases.atom
+  - name: cert-manager
+    url: https://github.com/jetstack/cert-manager/releases.atom
+  - name: cilium
+    url: https://github.com/cilium/cilium/releases.atom
+  - name: hetznercloud/csi-driver
+    url: https://github.com/hetznercloud/csi-driver/releases.atom
+  - name: kubernetes/longhorn
+    url: https://github.com/longhorn/longhorn/releases.atom
+  - name: prometheus
+    url: https://github.com/prometheus/prometheus/releases.atom
+  - name: grafana
+    url: https://github.com/grafana/grafana/releases.atom
+  - name: cf-cli
+    url: https://github.com/cloudfoundry/cli/releases.atom
+  - name: bosh-cli
+    url: https://github.com/cloudfoundry/bosh-cli/releases.atom
   webhooks:
-  - url: http://localhost:9876/azure-status-rss
+  - url: http://localhost:9876/test
     template: |
       {
-        "name": "{{ .Name }}",
-        "source": "{{ .Feed.Title }}",
-        "title": "{{ .Item.Title }}",
-        "description": "no description",
-        "link": ""
-      }
-- name: gcp-status-rss
-  feeds:
-  - name: gcp-status
-    url: https://status.cloud.google.com/feed.atom
-  - name: google-apps-status
-    url: https://www.google.com/appsstatus/rss/en
-  webhooks:
-  - url: http://localhost:9877/gcp-status-rss
-    template: |
-      {
-        "name": "{{ .Name }}",
-        "source": "{{ .Feed.Title }}",
-        "title": "{{ .Item.Title }}",
-        "description": "{{- urlquery .Item.Content -}}",
-        "link": "{{ .Item.Link }}"
-      }
-- name: aws-eu-west-1-status-rss
-  feeds:
-  - name: acuity-eu-west-1
-    url: https://status.aws.amazon.com/rss/acuity-eu-west-1.rss
-  - name: airflow-eu-west-1
-    url: https://status.aws.amazon.com/rss/airflow-eu-west-1.rss
-  - name: amazonforecast-eu-west-1
-    url: https://status.aws.amazon.com/rss/amazonforecast-eu-west-1.rss
-  - name: aml-eu-west-1
-    url: https://status.aws.amazon.com/rss/aml-eu-west-1.rss
-  - name: amplify-eu-west-1
-    url: https://status.aws.amazon.com/rss/amplify-eu-west-1.rss
-  - name: apigateway-eu-west-1
-    url: https://status.aws.amazon.com/rss/apigateway-eu-west-1.rss
-  - name: appflow-eu-west-1
-    url: https://status.aws.amazon.com/rss/appflow-eu-west-1.rss
-  - name: applicationdiscoveryservice-eu-west-1
-    url: https://status.aws.amazon.com/rss/applicationdiscoveryservice-eu-west-1.rss
-  - name: appmesh-eu-west-1
-    url: https://status.aws.amazon.com/rss/appmesh-eu-west-1.rss
-  - name: appstream2-eu-west-1
-    url: https://status.aws.amazon.com/rss/appstream2-eu-west-1.rss
-  - name: appsync-eu-west-1
-    url: https://status.aws.amazon.com/rss/appsync-eu-west-1.rss
-  - name: athena-eu-west-1
-    url: https://status.aws.amazon.com/rss/athena-eu-west-1.rss
-  - name: auditmanager-eu-west-1
-    url: https://status.aws.amazon.com/rss/auditmanager-eu-west-1.rss
-  - name: augmentedai-eu-west-1
-    url: https://status.aws.amazon.com/rss/augmentedai-eu-west-1.rss
-  - name: autoscaling-eu-west-1
-    url: https://status.aws.amazon.com/rss/autoscaling-eu-west-1.rss
-  - name: aws-glue-eu-west-1
-    url: https://status.aws.amazon.com/rss/aws-glue-eu-west-1.rss
-  - name: awsgreengrass-eu-west-1
-    url: https://status.aws.amazon.com/rss/awsgreengrass-eu-west-1.rss
-  - name: awsiot-eu-west-1
-    url: https://status.aws.amazon.com/rss/awsiot-eu-west-1.rss
-  - name: backup-eu-west-1
-    url: https://status.aws.amazon.com/rss/backup-eu-west-1.rss
-  - name: batch-eu-west-1
-    url: https://status.aws.amazon.com/rss/batch-eu-west-1.rss
-  - name: cassandra-eu-west-1
-    url: https://status.aws.amazon.com/rss/cassandra-eu-west-1.rss
-  - name: certificatemanager-eu-west-1
-    url: https://status.aws.amazon.com/rss/certificatemanager-eu-west-1.rss
-  - name: clientvpn-eu-west-1
-    url: https://status.aws.amazon.com/rss/clientvpn-eu-west-1.rss
-  - name: cloud9-eu-west-1
-    url: https://status.aws.amazon.com/rss/cloud9-eu-west-1.rss
-  - name: clouddirectory-eu-west-1
-    url: https://status.aws.amazon.com/rss/clouddirectory-eu-west-1.rss
-  - name: cloudformation-eu-west-1
-    url: https://status.aws.amazon.com/rss/cloudformation-eu-west-1.rss
-  - name: cloudhsm-eu-west-1
-    url: https://status.aws.amazon.com/rss/cloudhsm-eu-west-1.rss
-  - name: cloudsearch-eu-west-1
-    url: https://status.aws.amazon.com/rss/cloudsearch-eu-west-1.rss
-  - name: cloudtrail-eu-west-1
-    url: https://status.aws.amazon.com/rss/cloudtrail-eu-west-1.rss
-  - name: cloudwatch-eu-west-1
-    url: https://status.aws.amazon.com/rss/cloudwatch-eu-west-1.rss
-  - name: codeartifact-eu-west-1
-    url: https://status.aws.amazon.com/rss/codeartifact-eu-west-1.rss
-  - name: codebuild-eu-west-1
-    url: https://status.aws.amazon.com/rss/codebuild-eu-west-1.rss
-  - name: codecommit-eu-west-1
-    url: https://status.aws.amazon.com/rss/codecommit-eu-west-1.rss
-  - name: codedeploy-eu-west-1
-    url: https://status.aws.amazon.com/rss/codedeploy-eu-west-1.rss
-  - name: codeguru-profiler-eu-west-1
-    url: https://status.aws.amazon.com/rss/codeguru-profiler-eu-west-1.rss
-  - name: codeguru-reviewer-eu-west-1
-    url: https://status.aws.amazon.com/rss/codeguru-reviewer-eu-west-1.rss
-  - name: codepipeline-eu-west-1
-    url: https://status.aws.amazon.com/rss/codepipeline-eu-west-1.rss
-  - name: codestar-eu-west-1
-    url: https://status.aws.amazon.com/rss/codestar-eu-west-1.rss
-  - name: cognito-eu-west-1
-    url: https://status.aws.amazon.com/rss/cognito-eu-west-1.rss
-  - name: comprehend-eu-west-1
-    url: https://status.aws.amazon.com/rss/comprehend-eu-west-1.rss
-  - name: comprehendmedical-eu-west-1
-    url: https://status.aws.amazon.com/rss/comprehendmedical-eu-west-1.rss
-  - name: config-eu-west-1
-    url: https://status.aws.amazon.com/rss/config-eu-west-1.rss
-  - name: controltower-eu-west-1
-    url: https://status.aws.amazon.com/rss/controltower-eu-west-1.rss
-  - name: dataexchange-eu-west-1
-    url: https://status.aws.amazon.com/rss/dataexchange-eu-west-1.rss
-  - name: datapipeline-eu-west-1
-    url: https://status.aws.amazon.com/rss/datapipeline-eu-west-1.rss
-  - name: datasync-eu-west-1
-    url: https://status.aws.amazon.com/rss/datasync-eu-west-1.rss
-  - name: detective-eu-west-1
-    url: https://status.aws.amazon.com/rss/detective-eu-west-1.rss
-  - name: directconnect-eu-west-1
-    url: https://status.aws.amazon.com/rss/directconnect-eu-west-1.rss
-  - name: directoryservice-eu-west-1
-    url: https://status.aws.amazon.com/rss/directoryservice-eu-west-1.rss
-  - name: dlm-eu-west-1
-    url: https://status.aws.amazon.com/rss/dlm-eu-west-1.rss
-  - name: dms-eu-west-1
-    url: https://status.aws.amazon.com/rss/dms-eu-west-1.rss
-  - name: docdb-eu-west-1
-    url: https://status.aws.amazon.com/rss/docdb-eu-west-1.rss
-  - name: dynamodb-eu-west-1
-    url: https://status.aws.amazon.com/rss/dynamodb-eu-west-1.rss
-  - name: ec2-eu-west-1
-    url: https://status.aws.amazon.com/rss/ec2-eu-west-1.rss
-  - name: ec2systemsmanager-eu-west-1
-    url: https://status.aws.amazon.com/rss/ec2systemsmanager-eu-west-1.rss
-  - name: ecr-eu-west-1
-    url: https://status.aws.amazon.com/rss/ecr-eu-west-1.rss
-  - name: ecs-eu-west-1
-    url: https://status.aws.amazon.com/rss/ecs-eu-west-1.rss
-  - name: eks-eu-west-1
-    url: https://status.aws.amazon.com/rss/eks-eu-west-1.rss
-  - name: elasticache-eu-west-1
-    url: https://status.aws.amazon.com/rss/elasticache-eu-west-1.rss
-  - name: elasticbeanstalk-eu-west-1
-    url: https://status.aws.amazon.com/rss/elasticbeanstalk-eu-west-1.rss
-  - name: elasticfilesystem-eu-west-1
-    url: https://status.aws.amazon.com/rss/elasticfilesystem-eu-west-1.rss
-  - name: elasticsearch-eu-west-1
-    url: https://status.aws.amazon.com/rss/elasticsearch-eu-west-1.rss
-  - name: elb-eu-west-1
-    url: https://status.aws.amazon.com/rss/elb-eu-west-1.rss
-  - name: elemental-eu-west-1
-    url: https://status.aws.amazon.com/rss/elemental-eu-west-1.rss
-  - name: emr-eu-west-1
-    url: https://status.aws.amazon.com/rss/emr-eu-west-1.rss
-  - name: events-eu-west-1
-    url: https://status.aws.amazon.com/rss/events-eu-west-1.rss
-  - name: firehose-eu-west-1
-    url: https://status.aws.amazon.com/rss/firehose-eu-west-1.rss
-  - name: fms-eu-west-1
-    url: https://status.aws.amazon.com/rss/fms-eu-west-1.rss
-  - name: frauddetector-eu-west-1
-    url: https://status.aws.amazon.com/rss/frauddetector-eu-west-1.rss
-  - name: freertos-eu-west-1
-    url: https://status.aws.amazon.com/rss/freertos-eu-west-1.rss
-  - name: fsx-eu-west-1
-    url: https://status.aws.amazon.com/rss/fsx-eu-west-1.rss
-  - name: gamelift-eu-west-1
-    url: https://status.aws.amazon.com/rss/gamelift-eu-west-1.rss
-  - name: glacier-eu-west-1
-    url: https://status.aws.amazon.com/rss/glacier-eu-west-1.rss
-  - name: glue-eu-west-1
-    url: https://status.aws.amazon.com/rss/glue-eu-west-1.rss
-  - name: groundstation-eu-west-1
-    url: https://status.aws.amazon.com/rss/groundstation-eu-west-1.rss
-  - name: guardduty-eu-west-1
-    url: https://status.aws.amazon.com/rss/guardduty-eu-west-1.rss
-  - name: imagebuilder-eu-west-1
-    url: https://status.aws.amazon.com/rss/imagebuilder-eu-west-1.rss
-  - name: inspector-eu-west-1
-    url: https://status.aws.amazon.com/rss/inspector-eu-west-1.rss
-  - name: internetconnectivity-eu-west-1
-    url: https://status.aws.amazon.com/rss/internetconnectivity-eu-west-1.rss
-  - name: iot1click-eu-west-1
-    url: https://status.aws.amazon.com/rss/iot1click-eu-west-1.rss
-  - name: iotanalytics-eu-west-1
-    url: https://status.aws.amazon.com/rss/iotanalytics-eu-west-1.rss
-  - name: iotdevicedefender-eu-west-1
-    url: https://status.aws.amazon.com/rss/iotdevicedefender-eu-west-1.rss
-  - name: iotevents-eu-west-1
-    url: https://status.aws.amazon.com/rss/iotevents-eu-west-1.rss
-  - name: iotsitewise-eu-west-1
-    url: https://status.aws.amazon.com/rss/iotsitewise-eu-west-1.rss
-  - name: ivs-eu-west-1
-    url: https://status.aws.amazon.com/rss/ivs-eu-west-1.rss
-  - name: kafka-eu-west-1
-    url: https://status.aws.amazon.com/rss/kafka-eu-west-1.rss
-  - name: kendra-eu-west-1
-    url: https://status.aws.amazon.com/rss/kendra-eu-west-1.rss
-  - name: kinesisanalytics-eu-west-1
-    url: https://status.aws.amazon.com/rss/kinesisanalytics-eu-west-1.rss
-  - name: kinesis-eu-west-1
-    url: https://status.aws.amazon.com/rss/kinesis-eu-west-1.rss
-  - name: kms-eu-west-1
-    url: https://status.aws.amazon.com/rss/kms-eu-west-1.rss
-  - name: lakeformation-eu-west-1
-    url: https://status.aws.amazon.com/rss/lakeformation-eu-west-1.rss
-  - name: lambda-eu-west-1
-    url: https://status.aws.amazon.com/rss/lambda-eu-west-1.rss
-  - name: lex-eu-west-1
-    url: https://status.aws.amazon.com/rss/lex-eu-west-1.rss
-  - name: licensemanager-eu-west-1
-    url: https://status.aws.amazon.com/rss/licensemanager-eu-west-1.rss
-  - name: lightsail-eu-west-1
-    url: https://status.aws.amazon.com/rss/lightsail-eu-west-1.rss
-  - name: lookoutvision-eu-west-1
-    url: https://status.aws.amazon.com/rss/lookoutvision-eu-west-1.rss
-  - name: managedblockchain-eu-west-1
-    url: https://status.aws.amazon.com/rss/managedblockchain-eu-west-1.rss
-  - name: migrationhub-eu-west-1
-    url: https://status.aws.amazon.com/rss/migrationhub-eu-west-1.rss
-  - name: mq-eu-west-1
-    url: https://status.aws.amazon.com/rss/mq-eu-west-1.rss
-  - name: natgateway-eu-west-1
-    url: https://status.aws.amazon.com/rss/natgateway-eu-west-1.rss
-  - name: neptune-db-eu-west-1
-    url: https://status.aws.amazon.com/rss/neptune-db-eu-west-1.rss
-  - name: networkfirewall-eu-west-1
-    url: https://status.aws.amazon.com/rss/networkfirewall-eu-west-1.rss
-  - name: opsworkschef-eu-west-1
-    url: https://status.aws.amazon.com/rss/opsworkschef-eu-west-1.rss
-  - name: opsworks-eu-west-1
-    url: https://status.aws.amazon.com/rss/opsworks-eu-west-1.rss
-  - name: opsworkspuppet-eu-west-1
-    url: https://status.aws.amazon.com/rss/opsworkspuppet-eu-west-1.rss
-  - name: personalize-eu-west-1
-    url: https://status.aws.amazon.com/rss/personalize-eu-west-1.rss
-  - name: pinpoint-eu-west-1
-    url: https://status.aws.amazon.com/rss/pinpoint-eu-west-1.rss
-  - name: polly-eu-west-1
-    url: https://status.aws.amazon.com/rss/polly-eu-west-1.rss
-  - name: privatelink-eu-west-1
-    url: https://status.aws.amazon.com/rss/privatelink-eu-west-1.rss
-  - name: qldb-eu-west-1
-    url: https://status.aws.amazon.com/rss/qldb-eu-west-1.rss
-  - name: quicksight-eu-west-1
-    url: https://status.aws.amazon.com/rss/quicksight-eu-west-1.rss
-  - name: ram-eu-west-1
-    url: https://status.aws.amazon.com/rss/ram-eu-west-1.rss
-  - name: rds-eu-west-1
-    url: https://status.aws.amazon.com/rss/rds-eu-west-1.rss
-  - name: redshift-eu-west-1
-    url: https://status.aws.amazon.com/rss/redshift-eu-west-1.rss
-  - name: rekognition-eu-west-1
-    url: https://status.aws.amazon.com/rss/rekognition-eu-west-1.rss
-  - name: resourcegroupstaggingapi-eu-west-1
-    url: https://status.aws.amazon.com/rss/resourcegroupstaggingapi-eu-west-1.rss
-  - name: robomaker-eu-west-1
-    url: https://status.aws.amazon.com/rss/robomaker-eu-west-1.rss
-  - name: route53privatedns-eu-west-1
-    url: https://status.aws.amazon.com/rss/route53privatedns-eu-west-1.rss
-  - name: route53resolver-eu-west-1
-    url: https://status.aws.amazon.com/rss/route53resolver-eu-west-1.rss
-  - name: s3-eu-west-1
-    url: https://status.aws.amazon.com/rss/s3-eu-west-1.rss
-  - name: sagemaker-eu-west-1
-    url: https://status.aws.amazon.com/rss/sagemaker-eu-west-1.rss
-  - name: secretsmanager-eu-west-1
-    url: https://status.aws.amazon.com/rss/secretsmanager-eu-west-1.rss
-  - name: securityhub-eu-west-1
-    url: https://status.aws.amazon.com/rss/securityhub-eu-west-1.rss
-  - name: serverlessrepo-eu-west-1
-    url: https://status.aws.amazon.com/rss/serverlessrepo-eu-west-1.rss
-  - name: servicecatalog-eu-west-1
-    url: https://status.aws.amazon.com/rss/servicecatalog-eu-west-1.rss
-  - name: servicediscovery-eu-west-1
-    url: https://status.aws.amazon.com/rss/servicediscovery-eu-west-1.rss
-  - name: ses-eu-west-1
-    url: https://status.aws.amazon.com/rss/ses-eu-west-1.rss
-  - name: simpledb-eu-west-1
-    url: https://status.aws.amazon.com/rss/simpledb-eu-west-1.rss
-  - name: sms-eu-west-1
-    url: https://status.aws.amazon.com/rss/sms-eu-west-1.rss
-  - name: sns-eu-west-1
-    url: https://status.aws.amazon.com/rss/sns-eu-west-1.rss
-  - name: sqs-eu-west-1
-    url: https://status.aws.amazon.com/rss/sqs-eu-west-1.rss
-  - name: sso-eu-west-1
-    url: https://status.aws.amazon.com/rss/sso-eu-west-1.rss
-  - name: state-eu-west-1
-    url: https://status.aws.amazon.com/rss/state-eu-west-1.rss
-  - name: storagegateway-eu-west-1
-    url: https://status.aws.amazon.com/rss/storagegateway-eu-west-1.rss
-  - name: sumerian-eu-west-1
-    url: https://status.aws.amazon.com/rss/sumerian-eu-west-1.rss
-  - name: swf-eu-west-1
-    url: https://status.aws.amazon.com/rss/swf-eu-west-1.rss
-  - name: textract-eu-west-1
-    url: https://status.aws.amazon.com/rss/textract-eu-west-1.rss
-  - name: thingsgraph-eu-west-1
-    url: https://status.aws.amazon.com/rss/thingsgraph-eu-west-1.rss
-  - name: timestream-eu-west-1
-    url: https://status.aws.amazon.com/rss/timestream-eu-west-1.rss
-  - name: transcribe-eu-west-1
-    url: https://status.aws.amazon.com/rss/transcribe-eu-west-1.rss
-  - name: transfer-eu-west-1
-    url: https://status.aws.amazon.com/rss/transfer-eu-west-1.rss
-  - name: transitgateway-eu-west-1
-    url: https://status.aws.amazon.com/rss/transitgateway-eu-west-1.rss
-  - name: translate-eu-west-1
-    url: https://status.aws.amazon.com/rss/translate-eu-west-1.rss
-  - name: vpc-eu-west-1
-    url: https://status.aws.amazon.com/rss/vpc-eu-west-1.rss
-  - name: vpnvpc-eu-west-1
-    url: https://status.aws.amazon.com/rss/vpnvpc-eu-west-1.rss
-  - name: workdocs-eu-west-1
-    url: https://status.aws.amazon.com/rss/workdocs-eu-west-1.rss
-  - name: worklink-eu-west-1
-    url: https://status.aws.amazon.com/rss/worklink-eu-west-1.rss
-  - name: workmail-eu-west-1
-    url: https://status.aws.amazon.com/rss/workmail-eu-west-1.rss
-  - name: workspaces-eu-west-1
-    url: https://status.aws.amazon.com/rss/workspaces-eu-west-1.rss
-  - name: xray-eu-west-1
-    url: https://status.aws.amazon.com/rss/xray-eu-west-1.rss
-  webhooks:
-  - url: http://localhost:9879/aws-eu-west-1-status-rss
-    template: |
-      {
-        "name": "{{ .Name }}",
-        "source": "{{ .Feed.Title }}",
-        "title": "{{ .Item.Title }}",
-        "description": "{{ .Item.Description }}",
-        "link": "{{ .Item.GUID }}"
-      }
-- name: aws-global-status-rss
-  feeds:
-  - name: awsiotdevicemanagement
-    url: https://status.aws.amazon.com/rss/awsiotdevicemanagement.rss
-  - name: awswaf
-    url: https://status.aws.amazon.com/rss/awswaf.rss
-  - name: billingconsole
-    url: https://status.aws.amazon.com/rss/billingconsole.rss
-  - name: chatbot
-    url: https://status.aws.amazon.com/rss/chatbot.rss
-  - name: chime
-    url: https://status.aws.amazon.com/rss/chime.rss
-  - name: cloudfront
-    url: https://status.aws.amazon.com/rss/cloudfront.rss
-  - name: globalaccelerator
-    url: https://status.aws.amazon.com/rss/globalaccelerator.rss
-  - name: health
-    url: https://status.aws.amazon.com/rss/health.rss
-  - name: iam
-    url: https://status.aws.amazon.com/rss/iam.rss
-  - name: import-export
-    url: https://status.aws.amazon.com/rss/import-export.rss
-  - name: interregionvpcpeering
-    url: https://status.aws.amazon.com/rss/interregionvpcpeering.rss
-  - name: management-console
-    url: https://status.aws.amazon.com/rss/management-console.rss
-  - name: marketplace
-    url: https://status.aws.amazon.com/rss/marketplace.rss
-  - name: organizations
-    url: https://status.aws.amazon.com/rss/organizations.rss
-  - name: resourcegroups
-    url: https://status.aws.amazon.com/rss/resourcegroups.rss
-  - name: route53
-    url: https://status.aws.amazon.com/rss/route53.rss
-  - name: route53domainregistration
-    url: https://status.aws.amazon.com/rss/route53domainregistration.rss
-  - name: s3-us-standard
-    url: https://status.aws.amazon.com/rss/s3-us-standard.rss
-  - name: spencer
-    url: https://status.aws.amazon.com/rss/spencer.rss
-  - name: supportcenter
-    url: https://status.aws.amazon.com/rss/supportcenter.rss
-  - name: trustedadvisor
-    url: https://status.aws.amazon.com/rss/trustedadvisor.rss
-  webhooks:
-  - url: http://localhost:9879/aws-eu-west-1-status-rss
-    template: |
-      {
-        "name": "{{ .Name }}",
-        "source": "{{ .Feed.Title }}",
-        "title": "{{ .Item.Title }}",
-        "description": "{{ .Item.Description }}",
-        "link": "{{ .Item.GUID }}"
-      }
-- name: aws-us-east-1-status-rss
-  feeds:
-  - name: a4b-us-east-1
-    url: https://status.aws.amazon.com/rss/a4b-us-east-1.rss
-  - name: acuity-us-east-1
-    url: https://status.aws.amazon.com/rss/acuity-us-east-1.rss
-  - name: airflow-us-east-1
-    url: https://status.aws.amazon.com/rss/airflow-us-east-1.rss
-  - name: amazonforecast-us-east-1
-    url: https://status.aws.amazon.com/rss/amazonforecast-us-east-1.rss
-  - name: aml-us-east-1
-    url: https://status.aws.amazon.com/rss/aml-us-east-1.rss
-  - name: amplify-us-east-1
-    url: https://status.aws.amazon.com/rss/amplify-us-east-1.rss
-  - name: apigateway-us-east-1
-    url: https://status.aws.amazon.com/rss/apigateway-us-east-1.rss
-  - name: appflow-us-east-1
-    url: https://status.aws.amazon.com/rss/appflow-us-east-1.rss
-  - name: applicationdiscoveryservice-us-east-1
-    url: https://status.aws.amazon.com/rss/applicationdiscoveryservice-us-east-1.rss
-  - name: appmesh-us-east-1
-    url: https://status.aws.amazon.com/rss/appmesh-us-east-1.rss
-  - name: appstream2-us-east-1
-    url: https://status.aws.amazon.com/rss/appstream2-us-east-1.rss
-  - name: appsync-us-east-1
-    url: https://status.aws.amazon.com/rss/appsync-us-east-1.rss
-  - name: athena-us-east-1
-    url: https://status.aws.amazon.com/rss/athena-us-east-1.rss
-  - name: auditmanager-us-east-1
-    url: https://status.aws.amazon.com/rss/auditmanager-us-east-1.rss
-  - name: augmentedai-us-east-1
-    url: https://status.aws.amazon.com/rss/augmentedai-us-east-1.rss
-  - name: autoscaling-us-east-1
-    url: https://status.aws.amazon.com/rss/autoscaling-us-east-1.rss
-  - name: aws-glue-us-east-1
-    url: https://status.aws.amazon.com/rss/aws-glue-us-east-1.rss
-  - name: awsgreengrass-us-east-1
-    url: https://status.aws.amazon.com/rss/awsgreengrass-us-east-1.rss
-  - name: awsiot-us-east-1
-    url: https://status.aws.amazon.com/rss/awsiot-us-east-1.rss
-  - name: backup-us-east-1
-    url: https://status.aws.amazon.com/rss/backup-us-east-1.rss
-  - name: batch-us-east-1
-    url: https://status.aws.amazon.com/rss/batch-us-east-1.rss
-  - name: braket-us-east-1
-    url: https://status.aws.amazon.com/rss/braket-us-east-1.rss
-  - name: cassandra-us-east-1
-    url: https://status.aws.amazon.com/rss/cassandra-us-east-1.rss
-  - name: certificatemanager-us-east-1
-    url: https://status.aws.amazon.com/rss/certificatemanager-us-east-1.rss
-  - name: clientvpn-us-east-1
-    url: https://status.aws.amazon.com/rss/clientvpn-us-east-1.rss
-  - name: cloud9-us-east-1
-    url: https://status.aws.amazon.com/rss/cloud9-us-east-1.rss
-  - name: clouddirectory-us-east-1
-    url: https://status.aws.amazon.com/rss/clouddirectory-us-east-1.rss
-  - name: cloudformation-us-east-1
-    url: https://status.aws.amazon.com/rss/cloudformation-us-east-1.rss
-  - name: cloudhsm-us-east-1
-    url: https://status.aws.amazon.com/rss/cloudhsm-us-east-1.rss
-  - name: cloudsearch-us-east-1
-    url: https://status.aws.amazon.com/rss/cloudsearch-us-east-1.rss
-  - name: cloudtrail-us-east-1
-    url: https://status.aws.amazon.com/rss/cloudtrail-us-east-1.rss
-  - name: cloudwatch-us-east-1
-    url: https://status.aws.amazon.com/rss/cloudwatch-us-east-1.rss
-  - name: codeartifact-us-east-1
-    url: https://status.aws.amazon.com/rss/codeartifact-us-east-1.rss
-  - name: codebuild-us-east-1
-    url: https://status.aws.amazon.com/rss/codebuild-us-east-1.rss
-  - name: codecommit-us-east-1
-    url: https://status.aws.amazon.com/rss/codecommit-us-east-1.rss
-  - name: codedeploy-us-east-1
-    url: https://status.aws.amazon.com/rss/codedeploy-us-east-1.rss
-  - name: codeguru-profiler-us-east-1
-    url: https://status.aws.amazon.com/rss/codeguru-profiler-us-east-1.rss
-  - name: codeguru-reviewer-us-east-1
-    url: https://status.aws.amazon.com/rss/codeguru-reviewer-us-east-1.rss
-  - name: codepipeline-us-east-1
-    url: https://status.aws.amazon.com/rss/codepipeline-us-east-1.rss
-  - name: codestar-us-east-1
-    url: https://status.aws.amazon.com/rss/codestar-us-east-1.rss
-  - name: cognito-us-east-1
-    url: https://status.aws.amazon.com/rss/cognito-us-east-1.rss
-  - name: comprehendmedical-us-east-1
-    url: https://status.aws.amazon.com/rss/comprehendmedical-us-east-1.rss
-  - name: comprehend-us-east-1
-    url: https://status.aws.amazon.com/rss/comprehend-us-east-1.rss
-  - name: config-us-east-1
-    url: https://status.aws.amazon.com/rss/config-us-east-1.rss
-  - name: connect-us-east-1
-    url: https://status.aws.amazon.com/rss/connect-us-east-1.rss
-  - name: controltower-us-east-1
-    url: https://status.aws.amazon.com/rss/controltower-us-east-1.rss
-  - name: dataexchange-us-east-1
-    url: https://status.aws.amazon.com/rss/dataexchange-us-east-1.rss
-  - name: datapipeline-us-east-1
-    url: https://status.aws.amazon.com/rss/datapipeline-us-east-1.rss
-  - name: datasync-us-east-1
-    url: https://status.aws.amazon.com/rss/datasync-us-east-1.rss
-  - name: deepcomposer-us-east-1
-    url: https://status.aws.amazon.com/rss/deepcomposer-us-east-1.rss
-  - name: deeplens-us-east-1
-    url: https://status.aws.amazon.com/rss/deeplens-us-east-1.rss
-  - name: deepracer-us-east-1
-    url: https://status.aws.amazon.com/rss/deepracer-us-east-1.rss
-  - name: detective-us-east-1
-    url: https://status.aws.amazon.com/rss/detective-us-east-1.rss
-  - name: directconnect-us-east-1
-    url: https://status.aws.amazon.com/rss/directconnect-us-east-1.rss
-  - name: directoryservice-us-east-1
-    url: https://status.aws.amazon.com/rss/directoryservice-us-east-1.rss
-  - name: dlm-us-east-1
-    url: https://status.aws.amazon.com/rss/dlm-us-east-1.rss
-  - name: dms-us-east-1
-    url: https://status.aws.amazon.com/rss/dms-us-east-1.rss
-  - name: docdb-us-east-1
-    url: https://status.aws.amazon.com/rss/docdb-us-east-1.rss
-  - name: dynamodb-us-east-1
-    url: https://status.aws.amazon.com/rss/dynamodb-us-east-1.rss
-  - name: ec2systemsmanager-us-east-1
-    url: https://status.aws.amazon.com/rss/ec2systemsmanager-us-east-1.rss
-  - name: ec2-us-east-1
-    url: https://status.aws.amazon.com/rss/ec2-us-east-1.rss
-  - name: ecr-us-east-1
-    url: https://status.aws.amazon.com/rss/ecr-us-east-1.rss
-  - name: ecs-us-east-1
-    url: https://status.aws.amazon.com/rss/ecs-us-east-1.rss
-  - name: eks-us-east-1
-    url: https://status.aws.amazon.com/rss/eks-us-east-1.rss
-  - name: elasticache-us-east-1
-    url: https://status.aws.amazon.com/rss/elasticache-us-east-1.rss
-  - name: elasticbeanstalk-us-east-1
-    url: https://status.aws.amazon.com/rss/elasticbeanstalk-us-east-1.rss
-  - name: elasticfilesystem-us-east-1
-    url: https://status.aws.amazon.com/rss/elasticfilesystem-us-east-1.rss
-  - name: elasticsearch-us-east-1
-    url: https://status.aws.amazon.com/rss/elasticsearch-us-east-1.rss
-  - name: elb-us-east-1
-    url: https://status.aws.amazon.com/rss/elb-us-east-1.rss
-  - name: elemental-us-east-1
-    url: https://status.aws.amazon.com/rss/elemental-us-east-1.rss
-  - name: emr-us-east-1
-    url: https://status.aws.amazon.com/rss/emr-us-east-1.rss
-  - name: events-us-east-1
-    url: https://status.aws.amazon.com/rss/events-us-east-1.rss
-  - name: firehose-us-east-1
-    url: https://status.aws.amazon.com/rss/firehose-us-east-1.rss
-  - name: fms-us-east-1
-    url: https://status.aws.amazon.com/rss/fms-us-east-1.rss
-  - name: frauddetector-us-east-1
-    url: https://status.aws.amazon.com/rss/frauddetector-us-east-1.rss
-  - name: freertos-us-east-1
-    url: https://status.aws.amazon.com/rss/freertos-us-east-1.rss
-  - name: fsx-us-east-1
-    url: https://status.aws.amazon.com/rss/fsx-us-east-1.rss
-  - name: gamelift-us-east-1
-    url: https://status.aws.amazon.com/rss/gamelift-us-east-1.rss
-  - name: glacier-us-east-1
-    url: https://status.aws.amazon.com/rss/glacier-us-east-1.rss
-  - name: glue-us-east-1
-    url: https://status.aws.amazon.com/rss/glue-us-east-1.rss
-  - name: guardduty-us-east-1
-    url: https://status.aws.amazon.com/rss/guardduty-us-east-1.rss
-  - name: imagebuilder-us-east-1
-    url: https://status.aws.amazon.com/rss/imagebuilder-us-east-1.rss
-  - name: inspector-us-east-1
-    url: https://status.aws.amazon.com/rss/inspector-us-east-1.rss
-  - name: internetconnectivity-us-east-1
-    url: https://status.aws.amazon.com/rss/internetconnectivity-us-east-1.rss
-  - name: iot1click-us-east-1
-    url: https://status.aws.amazon.com/rss/iot1click-us-east-1.rss
-  - name: iotanalytics-us-east-1
-    url: https://status.aws.amazon.com/rss/iotanalytics-us-east-1.rss
-  - name: iotdevicedefender-us-east-1
-    url: https://status.aws.amazon.com/rss/iotdevicedefender-us-east-1.rss
-  - name: iotevents-us-east-1
-    url: https://status.aws.amazon.com/rss/iotevents-us-east-1.rss
-  - name: iotsitewise-us-east-1
-    url: https://status.aws.amazon.com/rss/iotsitewise-us-east-1.rss
-  - name: ivs-us-east-1
-    url: https://status.aws.amazon.com/rss/ivs-us-east-1.rss
-  - name: kafka-us-east-1
-    url: https://status.aws.amazon.com/rss/kafka-us-east-1.rss
-  - name: kendra-us-east-1
-    url: https://status.aws.amazon.com/rss/kendra-us-east-1.rss
-  - name: kinesisanalytics-us-east-1
-    url: https://status.aws.amazon.com/rss/kinesisanalytics-us-east-1.rss
-  - name: kinesis-us-east-1
-    url: https://status.aws.amazon.com/rss/kinesis-us-east-1.rss
-  - name: kms-us-east-1
-    url: https://status.aws.amazon.com/rss/kms-us-east-1.rss
-  - name: lakeformation-us-east-1
-    url: https://status.aws.amazon.com/rss/lakeformation-us-east-1.rss
-  - name: lambda-us-east-1
-    url: https://status.aws.amazon.com/rss/lambda-us-east-1.rss
-  - name: lex-us-east-1
-    url: https://status.aws.amazon.com/rss/lex-us-east-1.rss
-  - name: licensemanager-us-east-1
-    url: https://status.aws.amazon.com/rss/licensemanager-us-east-1.rss
-  - name: lightsail-us-east-1
-    url: https://status.aws.amazon.com/rss/lightsail-us-east-1.rss
-  - name: lookoutvision-us-east-1
-    url: https://status.aws.amazon.com/rss/lookoutvision-us-east-1.rss
-  - name: macie-us-east-1
-    url: https://status.aws.amazon.com/rss/macie-us-east-1.rss
-  - name: managedblockchain-us-east-1
-    url: https://status.aws.amazon.com/rss/managedblockchain-us-east-1.rss
-  - name: migrationhub-us-east-1
-    url: https://status.aws.amazon.com/rss/migrationhub-us-east-1.rss
-  - name: mobilehub-us-east-1
-    url: https://status.aws.amazon.com/rss/mobilehub-us-east-1.rss
-  - name: monitron-us-east-1
-    url: https://status.aws.amazon.com/rss/monitron-us-east-1.rss
-  - name: mq-us-east-1
-    url: https://status.aws.amazon.com/rss/mq-us-east-1.rss
-  - name: natgateway-us-east-1
-    url: https://status.aws.amazon.com/rss/natgateway-us-east-1.rss
-  - name: neptune-db-us-east-1
-    url: https://status.aws.amazon.com/rss/neptune-db-us-east-1.rss
-  - name: networkfirewall-us-east-1
-    url: https://status.aws.amazon.com/rss/networkfirewall-us-east-1.rss
-  - name: opsworkschef-us-east-1
-    url: https://status.aws.amazon.com/rss/opsworkschef-us-east-1.rss
-  - name: opsworkspuppet-us-east-1
-    url: https://status.aws.amazon.com/rss/opsworkspuppet-us-east-1.rss
-  - name: opsworks-us-east-1
-    url: https://status.aws.amazon.com/rss/opsworks-us-east-1.rss
-  - name: personalize-us-east-1
-    url: https://status.aws.amazon.com/rss/personalize-us-east-1.rss
-  - name: pinpoint-us-east-1
-    url: https://status.aws.amazon.com/rss/pinpoint-us-east-1.rss
-  - name: polly-us-east-1
-    url: https://status.aws.amazon.com/rss/polly-us-east-1.rss
-  - name: privatelink-us-east-1
-    url: https://status.aws.amazon.com/rss/privatelink-us-east-1.rss
-  - name: qldb-us-east-1
-    url: https://status.aws.amazon.com/rss/qldb-us-east-1.rss
-  - name: quicksight-us-east-1
-    url: https://status.aws.amazon.com/rss/quicksight-us-east-1.rss
-  - name: ram-us-east-1
-    url: https://status.aws.amazon.com/rss/ram-us-east-1.rss
-  - name: rds-us-east-1
-    url: https://status.aws.amazon.com/rss/rds-us-east-1.rss
-  - name: redshift-us-east-1
-    url: https://status.aws.amazon.com/rss/redshift-us-east-1.rss
-  - name: rekognition-us-east-1
-    url: https://status.aws.amazon.com/rss/rekognition-us-east-1.rss
-  - name: resourcegroupstaggingapi-us-east-1
-    url: https://status.aws.amazon.com/rss/resourcegroupstaggingapi-us-east-1.rss
-  - name: robomaker-us-east-1
-    url: https://status.aws.amazon.com/rss/robomaker-us-east-1.rss
-  - name: route53privatedns-us-east-1
-    url: https://status.aws.amazon.com/rss/route53privatedns-us-east-1.rss
-  - name: route53resolver-us-east-1
-    url: https://status.aws.amazon.com/rss/route53resolver-us-east-1.rss
-  - name: sagemaker-us-east-1
-    url: https://status.aws.amazon.com/rss/sagemaker-us-east-1.rss
-  - name: secretsmanager-us-east-1
-    url: https://status.aws.amazon.com/rss/secretsmanager-us-east-1.rss
-  - name: securityhub-us-east-1
-    url: https://status.aws.amazon.com/rss/securityhub-us-east-1.rss
-  - name: serverlessrepo-us-east-1
-    url: https://status.aws.amazon.com/rss/serverlessrepo-us-east-1.rss
-  - name: servicecatalog-us-east-1
-    url: https://status.aws.amazon.com/rss/servicecatalog-us-east-1.rss
-  - name: servicediscovery-us-east-1
-    url: https://status.aws.amazon.com/rss/servicediscovery-us-east-1.rss
-  - name: ses-us-east-1
-    url: https://status.aws.amazon.com/rss/ses-us-east-1.rss
-  - name: simpledb-us-east-1
-    url: https://status.aws.amazon.com/rss/simpledb-us-east-1.rss
-  - name: sms-us-east-1
-    url: https://status.aws.amazon.com/rss/sms-us-east-1.rss
-  - name: sns-us-east-1
-    url: https://status.aws.amazon.com/rss/sns-us-east-1.rss
-  - name: sqs-us-east-1
-    url: https://status.aws.amazon.com/rss/sqs-us-east-1.rss
-  - name: sso-us-east-1
-    url: https://status.aws.amazon.com/rss/sso-us-east-1.rss
-  - name: state-us-east-1
-    url: https://status.aws.amazon.com/rss/state-us-east-1.rss
-  - name: storagegateway-us-east-1
-    url: https://status.aws.amazon.com/rss/storagegateway-us-east-1.rss
-  - name: sumerian-us-east-1
-    url: https://status.aws.amazon.com/rss/sumerian-us-east-1.rss
-  - name: swf-us-east-1
-    url: https://status.aws.amazon.com/rss/swf-us-east-1.rss
-  - name: textract-us-east-1
-    url: https://status.aws.amazon.com/rss/textract-us-east-1.rss
-  - name: thingsgraph-us-east-1
-    url: https://status.aws.amazon.com/rss/thingsgraph-us-east-1.rss
-  - name: timestream-us-east-1
-    url: https://status.aws.amazon.com/rss/timestream-us-east-1.rss
-  - name: transcribe-us-east-1
-    url: https://status.aws.amazon.com/rss/transcribe-us-east-1.rss
-  - name: transfer-us-east-1
-    url: https://status.aws.amazon.com/rss/transfer-us-east-1.rss
-  - name: transitgateway-us-east-1
-    url: https://status.aws.amazon.com/rss/transitgateway-us-east-1.rss
-  - name: translate-us-east-1
-    url: https://status.aws.amazon.com/rss/translate-us-east-1.rss
-  - name: vpc-us-east-1
-    url: https://status.aws.amazon.com/rss/vpc-us-east-1.rss
-  - name: vpnvpc-us-east-1
-    url: https://status.aws.amazon.com/rss/vpnvpc-us-east-1.rss
-  - name: workdocs-us-east-1
-    url: https://status.aws.amazon.com/rss/workdocs-us-east-1.rss
-  - name: worklink-us-east-1
-    url: https://status.aws.amazon.com/rss/worklink-us-east-1.rss
-  - name: workmail-us-east-1
-    url: https://status.aws.amazon.com/rss/workmail-us-east-1.rss
-  - name: workspaces-us-east-1
-    url: https://status.aws.amazon.com/rss/workspaces-us-east-1.rss
-  - name: xray-us-east-1
-    url: https://status.aws.amazon.com/rss/xray-us-east-1.rss
-  webhooks:
-  - url: http://localhost:9881/aws-us-east-1-status-rss
-    template: |
-      {
-        "name": "{{ .Name }}",
-        "source": "{{ .Feed.Title }}",
-        "title": "{{ .Item.Title }}",
-        "description": "{{ .Item.Description }}",
-        "link": "{{ .Item.GUID }}"
+        "@type": "MessageCard",
+        "@context": "https://schema.org/extensions",
+        "summary": "{{ .Title }}",
+        "themeColor": "1188dd",
+        "title": "{{ .Title }}",
+        "sections": [
+          {
+            "activityTitle": "{{ .Feed.Title }}",
+            "activitySubtitle": "{{ .Item.Title }}",
+            "activityImage": "{{ .Feed.Image }}",
+            "facts": [
+              {
+                "name": "Updated:",
+                "value": "{{ .Item.Updated }}"
+              }
+            ],
+            "text": "{{ .MarkdownContent | replace "\"" "'" | replace "\\" "" | replace "\n" "          \n" }}"
+          }
+        ],
+        "potentialAction": [
+          {
+            "@type": "OpenUri",
+            "name": "GitHub - Release Notes",
+            "targets": [
+              {
+                "os": "default",
+                "uri": "{{ .Item.Link }}"
+              }
+            ]
+          }
+        ]
       }
