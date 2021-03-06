@@ -15,6 +15,8 @@ notifications:
     url: https://github.com/cloudfoundry/cf-for-k8s/releases.atom
   - name: concourse
     url: https://github.com/concourse/concourse/releases.atom
+  - name: stratos portal
+    url: https://github.com/cloudfoundry/stratos/releases.atom
   - name: mongodb-operator
     url: https://github.com/mongodb/mongodb-enterprise-kubernetes/releases.atom
   - name: prometheus-operator
