@@ -75,6 +75,16 @@ notifications:
     url: https://github.com/authelia/authelia/releases.atom
   - name: istio
     url: https://github.com/istio/istio/releases.atom
+  - name: kiali
+    url: https://github.com/kiali/kiali/releases.atom
+  - name: linkerd
+    url: https://github.com/linkerd/linkerd2/releases.atom
+  - name: linkerd-proxy
+    url: https://github.com/linkerd/linkerd2-proxy/releases.atom
+  - name: consul
+    url: https://github.com/hashicorp/consul/releases.atom
+  - name: contour
+    url: https://github.com/projectcontour/contour/releases.atom
   - name: longhorn
     url: https://github.com/longhorn/longhorn/releases.atom
   - name: prometheus
