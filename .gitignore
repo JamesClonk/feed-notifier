@@ -16,6 +16,7 @@
 
 # configs
 config_*.yml
+manifest_*.yml
 
 # binaries
 gin-bin
