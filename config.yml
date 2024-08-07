@@ -11,22 +11,22 @@ notifications:
     url: https://github.com/cloudfoundry/bosh/releases.atom
   - name: capi-releases
     url: https://github.com/cloudfoundry/capi-release/releases.atom
-  - name: cf-for-k8s
-    url: https://github.com/cloudfoundry/cf-for-k8s/releases.atom
+  - name: diego-releases
+    url: https://github.com/cloudfoundry/diego-release/releases.atom
+  - name: bosh-stemcells
+    url: https://github.com/cloudfoundry/bosh-linux-stemcell-builder/releases.atom
+  - name: cf-cli
+    url: https://github.com/cloudfoundry/cli/releases.atom
+  - name: bosh-cli
+    url: https://github.com/cloudfoundry/bosh-cli/releases.atom
   - name: concourse
     url: https://github.com/concourse/concourse/releases.atom
-  - name: stratos-portal
-    url: https://github.com/cloudfoundry/stratos/releases.atom
   - name: mongodb-operator
     url: https://github.com/mongodb/mongodb-enterprise-kubernetes/releases.atom
   - name: prometheus-operator
     url: https://github.com/prometheus-operator/prometheus-operator/releases.atom
-  - name: grafana-operator
-    url: https://github.com/integr8ly/grafana-operator/releases.atom
-  - name: postgres-operator
-    url: https://github.com/CrunchyData/postgres-operator/releases.atom
-  - name: tekton-operator
-    url: https://github.com/tektoncd/operator/releases.atom
+  - name: cnpg-io
+    url: https://github.com/cloudnative-pg/cloudnative-pg/releases.atom
   - name: ytt
     url: https://github.com/vmware-tanzu/carvel-ytt/releases.atom
   - name: kapp
@@ -37,14 +37,18 @@ notifications:
     url: https://github.com/vmware-tanzu/carvel-vendir/releases.atom
   - name: kapp-controller
     url: https://github.com/vmware-tanzu/carvel-kapp-controller/releases.atom
-  - name: terraform
-    url: https://github.com/hashicorp/terraform/releases.atom
+  # - name: terraform
+  #   url: https://github.com/hashicorp/terraform/releases.atom
+  - name: opentofu
+    url: https://github.com/opentofu/opentofu/releases.atom
   - name: carvel-terraform-provider
     url: https://github.com/vmware-tanzu/terraform-provider-carvel/releases.atom
   - name: hetznercloud-terraform-provider
     url: https://github.com/hetznercloud/terraform-provider-hcloud/releases.atom
-  - name: tekton-pipeline
-    url: https://github.com/tektoncd/pipeline/releases.atom
+  - name: vcloud-terraform-provider
+    url: https://github.com/vmware/terraform-provider-vcd/releases.atom
+  - name: nsxt-terraform-provider
+    url: https://github.com/vmware/terraform-provider-nsxt/releases.atom
   - name: ingress-nginx
     url: https://github.com/kubernetes/ingress-nginx/releases.atom
   - name: cert-manager
@@ -71,20 +75,12 @@ notifications:
     url: https://github.com/vmware-tanzu/kpack-cli/releases.atom
   - name: dex
     url: https://github.com/dexidp/dex/releases.atom
-  - name: authelia
-    url: https://github.com/authelia/authelia/releases.atom
-  - name: istio
-    url: https://github.com/istio/istio/releases.atom
-  - name: kiali
-    url: https://github.com/kiali/kiali/releases.atom
-  - name: linkerd
-    url: https://github.com/linkerd/linkerd2/releases.atom
-  - name: linkerd-proxy
-    url: https://github.com/linkerd/linkerd2-proxy/releases.atom
-  - name: consul
-    url: https://github.com/hashicorp/consul/releases.atom
-  - name: contour
-    url: https://github.com/projectcontour/contour/releases.atom
+  # - name: authelia
+  #   url: https://github.com/authelia/authelia/releases.atom
+  - name: csi-driver-nfs
+    url: https://github.com/kubernetes-csi/csi-driver-nfs/releases.atom
+  - name: csi-driver-smb
+    url: https://github.com/kubernetes-csi/csi-driver-smb/releases.atom
   - name: longhorn
     url: https://github.com/longhorn/longhorn/releases.atom
   - name: prometheus
@@ -93,43 +89,77 @@ notifications:
     url: https://github.com/grafana/grafana/releases.atom
   - name: loki
     url: https://github.com/grafana/loki/releases.atom
-  - name: cf-cli
-    url: https://github.com/cloudfoundry/cli/releases.atom
-  - name: bosh-cli
-    url: https://github.com/cloudfoundry/bosh-cli/releases.atom
+  - name: kubermatic-kkp
+    url: https://github.com/kubermatic/kubermatic/releases.atom
+  - name: kubermatic-kkp-dashboard
+    url: https://github.com/kubermatic/dashboard/releases.atom
+  - name: kubermatic-kubeone
+    url: https://github.com/kubermatic/kubeone/releases.atom
+  - name: kubermatic-operating-system-manager
+    url: https://github.com/kubermatic/operating-system-manager/releases.atom
+  - name: kubermatic-machine-controller
+    url: https://github.com/kubermatic/machine-controller/releases.atom
   webhooks:
   - url: http://localhost:9876/test
     template: |
       {
-        "@type": "MessageCard",
-        "@context": "https://schema.org/extensions",
-        "summary": "{{ .Title }}",
-        "themeColor": "1188dd",
-        "title": "{{ .Title }}",
-        "sections": [
-          {
-            "activityTitle": "{{ .Feed.Title }}",
-            "activitySubtitle": "{{ .Item.Title }}",
-            "activityImage": "{{ .Feed.Image }}",
-            "facts": [
-              {
-                "name": "Updated:",
-                "value": "{{ .Item.Updated }}"
-              }
-            ],
-            "text": "{{ .MarkdownContent | replace "\"" "'" | replace "\\" "" | replace "\n" "          \n" }}"
-          }
-        ],
-        "potentialAction": [
-          {
-            "@type": "OpenUri",
-            "name": "GitHub - Release Notes",
-            "targets": [
-              {
-                "os": "default",
-                "uri": "{{ .Item.Link }}"
-              }
-            ]
-          }
-        ]
+         "type":"message",
+         "attachments":[
+            {
+               "contentType":"application/vnd.microsoft.card.adaptive",
+               "contentUrl":null,
+               "content":{
+                  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                  "type": "AdaptiveCard",
+                  "version": "1.6",
+                  "body": [
+                      {
+                          "type": "TextBlock",
+                          "text": "{{ .Title }}",
+                          "size": "Large",
+                          "style": "heading",
+                          "wrap": true
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "{{ .Feed.Title }}",
+                          "size": "Medium",
+                          "style": "heading",
+                          "wrap": true
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "{{ .Item.Title }}",
+                          "size": "Default",
+                          "separator": true,
+                          "wrap": true
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "**Updated:** {{ .Item.Updated }}",
+                          "size": "Default",
+                          "separator": true,
+                          "wrap": true
+                      },
+                      {
+                          "type": "TextBlock",
+                          "text": "{{ .MarkdownContent | replace "\"" "'" | replace "\\" "" | replace "\n" "          \n" }}",
+                          "size": "Default",
+                          "wrap": true
+                      },
+                      {
+                          "type": "ActionSet",
+                          "actions": [
+                              {
+                                  "type": "Action.OpenUrl",
+                                  "title": "GitHub - Release Notes",
+                                  "url": "{{ .Item.Link }}",
+                                  "iconUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/240px-Octicons-mark-github.svg.png"
+                              }
+                          ]
+                      }
+                  ]
+               }
+            }
+         ]
       }
