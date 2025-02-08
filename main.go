@@ -54,7 +54,7 @@ func feedWatcher() {
 						if err != nil {
 							log.Errorf("could not convert feed item content to markdown: %v", err)
 						}
-						
+
 						for _, hook := range notification.Webhooks {
 							// parse webhook template, fill it with data
 							var data bytes.Buffer
